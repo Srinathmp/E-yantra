@@ -12,6 +12,7 @@
 * Example Call: forward_wls(2); //Goes forward by two nodes
 *
 */
+/*
 void forward_wls(unsigned char node)
 {
 	unsigned char lefts, centres, rights;
@@ -83,6 +84,7 @@ void forward_wls(unsigned char node)
 	
 	
 }
+*/
 /*
 *
 * Function Name: left_turn_wls
@@ -101,30 +103,15 @@ void left_turn_wls(void)
 	centres = ADC_Conversion(2);
 	rights = ADC_Conversion(3);
 	printf("%d %d %d\n", lefts, centres, rights);
-	while (rights!=255) {
-		if (rights > lefts) {
-			while (rights > lefts) {
-				lefts = ADC_Conversion(1);
-				centres = ADC_Conversion(2);
-				rights = ADC_Conversion(3);
-				soft_right();
-			}
-		}
-		else if (rights < lefts) {
-			while (rights < lefts) {
-				lefts = ADC_Conversion(1);
-				centres = ADC_Conversion(2);
-				rights = ADC_Conversion(3);
-				soft_left();
-			}
-		}
+	
+	while (centres != 255) {
+		left();
 		lefts = ADC_Conversion(1);
 		centres = ADC_Conversion(2);
 		rights = ADC_Conversion(3);
-		forward();
-		printf("%d %d %d\n", lefts, centres, rights);
-
+		//printf("%d %d %d\n", lefts, centres, rights);
 	}
+	
 
 }
 
@@ -138,6 +125,22 @@ void left_turn_wls(void)
 */
 void right_turn_wls(void)
 {
+	unsigned char lefts, centres, rights;
+
+
+	lefts = ADC_Conversion(1);
+	centres = ADC_Conversion(2);
+	rights = ADC_Conversion(3);
+	printf("%d %d %d\n", lefts, centres, rights);
+	
+	while (rights != 255) {
+		right();
+		lefts = ADC_Conversion(1);
+		centres = ADC_Conversion(2);
+		rights = ADC_Conversion(3);
+		//printf("%d %d %d\n", lefts, centres, rights);
+	}
+	
 
 }
 
@@ -166,11 +169,89 @@ void e_shape(void)
 void Task_1_1(void)
 
 {
-	//left_turn_wls();
-	forward_wls(2);
-	
+	unsigned char lefts, centres, rights;
 
-	// Write your task 1.1 Logic here
+	int cnt=1;
+	lefts = ADC_Conversion(1);
+	centres = ADC_Conversion(2);
+	rights = ADC_Conversion(3);
+	printf("%d %d %d\n", lefts, centres, rights);
+	while (centres== 255) {
+		forward();
+		lefts = ADC_Conversion(1);
+		centres = ADC_Conversion(2);
+		rights = ADC_Conversion(3);
+
+	}
+	right_turn_wls();
+	printf("%d %d %d", lefts, centres, rights);
+	
+	while (cnt<=1200) {
+		forward();
+		
+		if (rights > centres) {
+			while (rights > centres) {
+				soft_right();
+				lefts = ADC_Conversion(1);
+				centres = ADC_Conversion(2);
+				rights = ADC_Conversion(3);
+			}
+
+		}
+		if (lefts > centres) {
+			while (lefts > centres) {
+				soft_left();
+				lefts = ADC_Conversion(1);
+				centres = ADC_Conversion(2);
+				rights = ADC_Conversion(3);
+			}
+
+		}
+		lefts = ADC_Conversion(1);
+		centres = ADC_Conversion(2);
+		rights = ADC_Conversion(3);
+		
+		if (lefts ==0 && centres ==0 && rights == 0) {
+			
+			
+			cnt += 1;
+			
+			
+		}
+		printf("%d\n", cnt);
+	}
+	left_turn_wls();
+	while (1) {
+		forward();
+		if (rights > centres) {
+			while (rights > centres) {
+				soft_right();
+				lefts = ADC_Conversion(1);
+				centres = ADC_Conversion(2);
+				rights = ADC_Conversion(3);
+			}
+
+		}
+		if (lefts > centres) {
+			while (lefts > centres) {
+				soft_left();
+				lefts = ADC_Conversion(1);
+				centres = ADC_Conversion(2);
+				rights = ADC_Conversion(3);
+			}
+		}
+		lefts = ADC_Conversion(1);
+		centres = ADC_Conversion(2);
+		rights = ADC_Conversion(3);
+		
+
+
+	}
+	
+	printf("%d %d %d", lefts, centres, rights);
+	
+	
+		// Write your task 1.1 Logic here
 }
 
 /*
