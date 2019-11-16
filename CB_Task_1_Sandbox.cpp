@@ -12,81 +12,57 @@
 * Example Call: forward_wls(2); //Goes forward by two nodes
 *
 */
-/*
 void forward_wls(unsigned char node)
 {
+
 	unsigned char lefts, centres, rights;
-	
-	
+
+
 	lefts = ADC_Conversion(1);
 	centres = ADC_Conversion(2);
 	rights = ADC_Conversion(3);
+
+
+
 	printf("%d %d %d\n", lefts, centres, rights);
-	while (rights!=255) {
-		forward();
-		lefts = ADC_Conversion(1);
-		centres = ADC_Conversion(2);
-		rights = ADC_Conversion(3);
+	int i = (int)node;
+	for (int a = 0; a < i; a++)
+	{
+
 		
-		//printf("%d %d %d\n",lefts, centres, rights);	
+		lefts = ADC_Conversion(1);
+		centres = ADC_Conversion(2);
+		rights = ADC_Conversion(3);
+
+		while (!(lefts == 255 && rights == 255 && centres == 255))
+		{
+
+
+			forward();
+
+			correction();
+
+			lefts = ADC_Conversion(1);
+			centres = ADC_Conversion(2);
+			rights = ADC_Conversion(3);
+
+
+		}
 	}
-	soft_right();
-	_delay_ms(100);
+
+
+
 	lefts = ADC_Conversion(1);
 	centres = ADC_Conversion(2);
 	rights = ADC_Conversion(3);
-	
-	
-	printf("%d %d %d\n", lefts, centres, rights);
-	while (rights!=255) {
-		soft_right();
-		centres = ADC_Conversion(2);
-		rights = ADC_Conversion(3);
-		lefts = ADC_Conversion(1);
-	}
-	printf("%d %d %d", lefts,centres, rights);
-	while (rights != 0 || lefts != 0 || centres != 0) {
-		forward();
-		if (rights > centres) {
-			while (rights > centres) {
-				soft_right();
-				lefts = ADC_Conversion(1);
-				centres = ADC_Conversion(2);
-				rights = ADC_Conversion(3);
-			}
 
-		}
-		if (lefts > centres) {
-			while (lefts > centres) {
-				soft_left();
-				lefts = ADC_Conversion(1);
-				centres = ADC_Conversion(2);
-				rights = ADC_Conversion(3);
-			}
-		}
-		lefts = ADC_Conversion(1);
-		centres = ADC_Conversion(2);
-		rights = ADC_Conversion(3);
-
-
-	}
-	printf("%d %d %d", lefts, centres, rights);
-
-
-
-	
-	
-	
-
-	
-
-	
-	
-	
+	printf("going the fuck out of this block %d %d %d", lefts, rights, centres);
 }
-*/
+
+
+
+
 /*
-*
 * Function Name: left_turn_wls
 * Input: void
 * Output: void
@@ -96,24 +72,15 @@ void forward_wls(unsigned char node)
 */
 void left_turn_wls(void)
 {
-	unsigned char lefts, centres, rights;
-
-
-	lefts = ADC_Conversion(1);
-	centres = ADC_Conversion(2);
-	rights = ADC_Conversion(3);
-	printf("%d %d %d\n", lefts, centres, rights);
-	
-	while (centres != 255) {
-		left();
-		lefts = ADC_Conversion(1);
-		centres = ADC_Conversion(2);
-		rights = ADC_Conversion(3);
-		//printf("%d %d %d\n", lefts, centres, rights);
-	}
 	
 
 }
+
+
+
+
+
+
 
 /*
 *
@@ -125,22 +92,25 @@ void left_turn_wls(void)
 */
 void right_turn_wls(void)
 {
-	unsigned char lefts, centres, rights;
+	unsigned lefts, rights, centres;
 
 
+	forward();
+
+	_delay_ms(200);
 	lefts = ADC_Conversion(1);
 	centres = ADC_Conversion(2);
 	rights = ADC_Conversion(3);
-	printf("%d %d %d\n", lefts, centres, rights);
-	
-	while (rights != 255) {
+
+
+
+	while (centres != 255)
+	{
+		printf("%d %d %d\n", lefts, centres, rights);
+		printf("entering right block");
 		right();
-		lefts = ADC_Conversion(1);
 		centres = ADC_Conversion(2);
-		rights = ADC_Conversion(3);
-		//printf("%d %d %d\n", lefts, centres, rights);
 	}
-	
 
 }
 
@@ -154,6 +124,29 @@ void right_turn_wls(void)
 */
 void e_shape(void)
 {
+	unsigned lefts, rights, centre;
+	lefts = ADC_Conversion(1);
+	centre = ADC_Conversion(2);
+	rights = ADC_Conversion(3);
+
+
+
+	forward_wls(1);
+	right_turn_wls();
+	forward_wls(2);
+	right_turn_wls();
+	forward_wls(1);
+	right_turn_wls();
+	forward_wls(1);
+	right_turn_wls();
+	forward_wls(1);
+
+
+
+
+
+	
+
 
 }
 
@@ -167,91 +160,9 @@ void e_shape(void)
 * Example Call: Task_1_1();
 */
 void Task_1_1(void)
-
 {
-	unsigned char lefts, centres, rights;
-
-	int cnt=1;
-	lefts = ADC_Conversion(1);
-	centres = ADC_Conversion(2);
-	rights = ADC_Conversion(3);
-	printf("%d %d %d\n", lefts, centres, rights);
-	while (centres== 255) {
-		forward();
-		lefts = ADC_Conversion(1);
-		centres = ADC_Conversion(2);
-		rights = ADC_Conversion(3);
-
-	}
-	right_turn_wls();
-	printf("%d %d %d", lefts, centres, rights);
-	
-	while (cnt<=1200) {
-		forward();
-		
-		if (rights > centres) {
-			while (rights > centres) {
-				soft_right();
-				lefts = ADC_Conversion(1);
-				centres = ADC_Conversion(2);
-				rights = ADC_Conversion(3);
-			}
-
-		}
-		if (lefts > centres) {
-			while (lefts > centres) {
-				soft_left();
-				lefts = ADC_Conversion(1);
-				centres = ADC_Conversion(2);
-				rights = ADC_Conversion(3);
-			}
-
-		}
-		lefts = ADC_Conversion(1);
-		centres = ADC_Conversion(2);
-		rights = ADC_Conversion(3);
-		
-		if (lefts ==0 && centres ==0 && rights == 0) {
-			
-			
-			cnt += 1;
-			
-			
-		}
-		printf("%d\n", cnt);
-	}
-	left_turn_wls();
-	while (1) {
-		forward();
-		if (rights > centres) {
-			while (rights > centres) {
-				soft_right();
-				lefts = ADC_Conversion(1);
-				centres = ADC_Conversion(2);
-				rights = ADC_Conversion(3);
-			}
-
-		}
-		if (lefts > centres) {
-			while (lefts > centres) {
-				soft_left();
-				lefts = ADC_Conversion(1);
-				centres = ADC_Conversion(2);
-				rights = ADC_Conversion(3);
-			}
-		}
-		lefts = ADC_Conversion(1);
-		centres = ADC_Conversion(2);
-		rights = ADC_Conversion(3);
-		
 
 
-	}
-	
-	printf("%d %d %d", lefts, centres, rights);
-	
-	
-		// Write your task 1.1 Logic here
 }
 
 /*
@@ -265,4 +176,49 @@ void Task_1_1(void)
 void Task_1_2(void)
 {
 	//write your task 1.2 logic here
+}
+
+
+void correction(void)
+{
+	unsigned lefts, rights, centres;
+
+	lefts = ADC_Conversion(1);
+	centres = ADC_Conversion(2);
+	rights = ADC_Conversion(3);
+
+
+	if (rights > centres)
+	{
+		while (rights > centres)
+		{
+			forward();
+			velocity(200, 180);
+			lefts = ADC_Conversion(1);
+			centres = ADC_Conversion(2);
+			rights = ADC_Conversion(3);
+			printf("right is greater");
+
+			printf("%d %d %d\n", lefts, centres, rights);
+		}
+
+	}
+	if (lefts > centres) {
+		while (lefts > centres) {
+			forward();
+			velocity(180, 200);
+
+
+
+			lefts = ADC_Conversion(1);
+			centres = ADC_Conversion(2);
+			rights = ADC_Conversion(3);
+			printf("left is greater");
+			printf("%d %d %d\n", lefts, centres, rights);
+		}
+
+
+	}
+
+
 }
