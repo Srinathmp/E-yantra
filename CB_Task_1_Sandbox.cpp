@@ -199,6 +199,10 @@ void Task_1_1(void)
 	forward_wls(1);
 	right_turn_wls();
 	forward_wls(1);
+	left_turn_wls();
+	forward_wls(1);
+	right_turn_wls();
+	forward_wls(1);
 }
 
 /*
@@ -277,14 +281,9 @@ void forcurve(unsigned char node)
 
 
 	printf("%d %d %d\n", lefts, centres, rights);
-	int i = (int)node;
-	for (int a = 0; a < i; a++)
-	{
+	
 
 
-		lefts = ADC_Conversion(1);
-		centres = ADC_Conversion(2);
-		rights = ADC_Conversion(3);
 
 		/*if (lefts == 0 && centres == 0 && rights == 0)
 		{
@@ -304,10 +303,13 @@ void forcurve(unsigned char node)
 
 
 			forward();
-			velocity(150, 150);
+			velocity(90, 90);
 
 			correction1();
-			if (lefts == 0 && centres == 0 && rights == 0)
+			lefts = ADC_Conversion(1);
+			centres = ADC_Conversion(2);
+			rights = ADC_Conversion(3);
+			/*if (lefts == 0 && centres == 0 && rights == 0)
 			{
 
 				while (centres != 255)
@@ -318,7 +320,7 @@ void forcurve(unsigned char node)
 					rights = ADC_Conversion(3);
 
 				}
-			}
+			} */ 
 			
 			lefts = ADC_Conversion(1);
 			centres = ADC_Conversion(2);
@@ -330,7 +332,7 @@ void forcurve(unsigned char node)
 		}
 		printf("%d %d %d\n", lefts, rights, centres);
 
-	}
+	
 
 
 
@@ -360,7 +362,7 @@ void correction1(void)
 			lefts = ADC_Conversion(1);
 			centres = ADC_Conversion(2);
 			rights = ADC_Conversion(3);
-		    //printf("right is greater");
+		    printf("right is greater");
 
 		     printf("%d %d %d\n", lefts, centres, rights);
 		}
@@ -369,7 +371,7 @@ void correction1(void)
 	if (lefts >centres) {
 		while (lefts >centres) {
 
-			velocity(0, 80);
+			left();
 
 
 
@@ -383,3 +385,4 @@ void correction1(void)
 
 	}
 }
+
