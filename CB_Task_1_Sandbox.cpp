@@ -1,3 +1,4 @@
+
 //You are allowed to define your own function to fulfill the requirement of tasks
 //Dont change the name of following functions
 
@@ -36,7 +37,7 @@ void forward_wls(unsigned char node)
 		if (lefts == 255 && rights == 255 && centres == 255)
 		{
 			forward();
-			velocity(150,150);
+		    velocity(150,150);
 			_delay_ms(400);
 		}
 
@@ -194,6 +195,10 @@ void Task_1_1(void)
 	forward_wls(5);
 	left_turn_wls();
 	forcurve(1);
+	left_turn_wls();
+	forward_wls(1);
+	right_turn_wls();
+	forward_wls(1);
 }
 
 /*
@@ -206,6 +211,12 @@ void Task_1_1(void)
 */
 void Task_1_2(void)
 {
+	forward();
+	_delay_ms(5000);
+	right();
+	left();
+	forward();
+	_delay_ms(2000);
 	//write your task 1.2 logic here
 }
 
@@ -223,7 +234,7 @@ void correction(void)
 	{
 		while (rights > centres)
 		{
-			
+
 			velocity(150, 90);
 			lefts = ADC_Conversion(1);
 			centres = ADC_Conversion(2);
@@ -236,7 +247,7 @@ void correction(void)
 	}
 	if (lefts > centres) {
 		while (lefts > centres) {
-			
+
 			velocity(90, 150);
 
 
@@ -261,7 +272,7 @@ void forcurve(unsigned char node)
 	lefts = ADC_Conversion(1);
 	centres = ADC_Conversion(2);
 	rights = ADC_Conversion(3);
-	
+
 
 
 
@@ -274,21 +285,21 @@ void forcurve(unsigned char node)
 		lefts = ADC_Conversion(1);
 		centres = ADC_Conversion(2);
 		rights = ADC_Conversion(3);
-		
-		if (lefts == 0 && centres == 0 && rights == 0)
+
+		/*if (lefts == 0 && centres == 0 && rights == 0)
 		{
-			
+
 			while (centres != 255)
 			{
 				soft_left();
 				lefts = ADC_Conversion(1);
 				centres = ADC_Conversion(2);
 				rights = ADC_Conversion(3);
-				
-			}
-		}
 
-		while (!(lefts == 255 && rights == 255 && centres == 255))
+			}
+		}*/
+
+		while (!(lefts == 255 && rights ==255 && centres == 255))
 		{
 
 
@@ -296,17 +307,29 @@ void forcurve(unsigned char node)
 			velocity(150, 150);
 
 			correction1();
+			if (lefts == 0 && centres == 0 && rights == 0)
+			{
 
+				while (centres != 255)
+				{
+					soft_left();
+					lefts = ADC_Conversion(1);
+					centres = ADC_Conversion(2);
+					rights = ADC_Conversion(3);
+
+				}
+			}
+			
 			lefts = ADC_Conversion(1);
 			centres = ADC_Conversion(2);
 			rights = ADC_Conversion(3);
-			
+
 			printf("%d %d %d\n", lefts, rights, centres);
 
 
 		}
 		printf("%d %d %d\n", lefts, rights, centres);
-		
+
 	}
 
 
@@ -327,7 +350,9 @@ void correction1(void)
 
 
 	if (rights > centres)
+
 	{
+		printf(" At turning %d %d %d\n", lefts, centres, rights);
 		while (rights > centres)
 		{
 
@@ -335,14 +360,14 @@ void correction1(void)
 			lefts = ADC_Conversion(1);
 			centres = ADC_Conversion(2);
 			rights = ADC_Conversion(3);
-			//printf("right is greater");
+		    //printf("right is greater");
 
-			//printf("%d %d %d\n", lefts, centres, rights);
+		     printf("%d %d %d\n", lefts, centres, rights);
 		}
 
 	}
-	if (lefts > centres) {
-		while (lefts > centres) {
+	if (lefts >centres) {
+		while (lefts >centres) {
 
 			velocity(0, 80);
 
