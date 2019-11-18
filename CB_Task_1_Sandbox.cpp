@@ -46,24 +46,24 @@ void forward_wls(unsigned char node)
 		rights = ADC_Conversion(3);
 		_delay_ms(10);
 
-		
+
 
 		while (!(lefts == 255 && rights == 255 && centres == 255))
 		{
 
-			
+
 			forward();
 			velocity(200, 200);
 
 
 			correction();
-			
+
 
 			lefts = ADC_Conversion(1);
 			centres = ADC_Conversion(2);
 			rights = ADC_Conversion(3);
 			_delay_ms(10);
-			
+
 
 		}
 		printf("%d %d %d\n", lefts, rights, centres);
@@ -101,7 +101,7 @@ void left_turn_wls(void)
 		forward();
 		velocity(100, 135);
 
-		_delay_ms(550);
+		_delay_ms(450);
 
 		lefts = ADC_Conversion(1);
 		centres = ADC_Conversion(2);
@@ -215,7 +215,7 @@ void e_shape(void)
 */
 void Task_1_1(void)
 {
-	forward_wls(1);
+	/*forward_wls(1);
 	right_turn_wls();
 	forward_wls(4);
 	left_turn_wls();
@@ -226,8 +226,10 @@ void Task_1_1(void)
 	forward_wls(1);
 	left_turn_wls();
 	forward_wls(1);
-	right_turn_wls();
-	forward_wls(1);
+	right_turn_wls();*/
+	forward();
+	_delay_ms(200);
+	zigzag();
 }
 
 /*
@@ -258,7 +260,7 @@ void correction(void)
 	lefts = ADC_Conversion(1);
 	centres = ADC_Conversion(2);
 	rights = ADC_Conversion(3);
-	
+
 
 	if (rights > centres)
 	{
@@ -269,7 +271,7 @@ void correction(void)
 			lefts = ADC_Conversion(1);
 			centres = ADC_Conversion(2);
 			rights = ADC_Conversion(3);
-			
+
 			//printf("right is greater");
 
 			//printf("%d %d %d\n", lefts, centres, rights);
@@ -286,7 +288,7 @@ void correction(void)
 			lefts = ADC_Conversion(1);
 			centres = ADC_Conversion(2);
 			rights = ADC_Conversion(3);
-			
+
 			//printf("left is greater");
 			//printf("%d %d %d\n", lefts, centres, rights);
 		}
@@ -350,7 +352,7 @@ void forcurve(unsigned char node)
 		centres = ADC_Conversion(2);
 		rights = ADC_Conversion(3);
 
-		printf("%d %d %d\n", lefts, rights, centres);
+		//printf("%d %d %d\n", lefts, rights, centres);
 
 
 	}
@@ -386,7 +388,7 @@ void correction1(void)
 			lefts = ADC_Conversion(1);
 			centres = ADC_Conversion(2);
 			rights = ADC_Conversion(3);
-			
+
 		}
 
 	}
@@ -404,6 +406,69 @@ void correction1(void)
 			//printf("%d %d %d\n", lefts, centres, rights);
 		}
 
+
+	}
+}
+void zigzag(void)
+{
+	unsigned char lefts, centres, rights,flag;
+	lefts = ADC_Conversion(1);
+	centres = ADC_Conversion(2);
+	rights = ADC_Conversion(3);
+	flag = 1;
+	
+	while (!(lefts == 255 && centres == 255 && rights == 255))
+	{
+		lefts = ADC_Conversion(1);
+		centres = ADC_Conversion(2);
+		rights = ADC_Conversion(3);
+		_delay_ms(10);
+		
+		velocity(100, 100);
+		correction();
+		if (lefts == 0 && centres == 0 && rights == 0)
+
+		{
+			velocity(100, 100);
+			_delay_ms(100);
+			if (flag==1)
+			{
+				flag = 2;
+				while (centres != 255)
+				{
+					velocity(0, 200);
+					//_delay_ms(380);
+					lefts = ADC_Conversion(1);
+					centres = ADC_Conversion(2);
+					rights = ADC_Conversion(3);
+					_delay_ms(10);
+
+				}
+				
+			}
+			if (flag == 2)
+			{
+				flag = 1;
+				while (centres != 255)
+				{
+					velocity(200, 0);
+					//_delay_ms(380);
+					lefts = ADC_Conversion(1);
+					centres = ADC_Conversion(2);
+					rights = ADC_Conversion(3);
+					_delay_ms(10);
+
+				}
+				
+			}
+			printf("%d", flag);
+		
+			
+			
+			
+			
+
+		}
 
 	}
 }
