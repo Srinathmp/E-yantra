@@ -215,7 +215,7 @@ void e_shape(void)
 */
 void Task_1_1(void)
 {
-	/*forward_wls(1);
+	forward_wls(1);
 	right_turn_wls();
 	forward_wls(4);
 	left_turn_wls();
@@ -226,10 +226,22 @@ void Task_1_1(void)
 	forward_wls(1);
 	left_turn_wls();
 	forward_wls(1);
-	right_turn_wls();*/
-	forward();
-	_delay_ms(200);
-	zigzag();
+	right_turn_wls();
+	forward_wls(1);
+	left_turn_wls();
+	forward_wls(1);
+	right_turn_wls();
+	forward_wls(1);
+	left_turn_wls();
+	forward_wls(1);
+	right_turn_wls();
+	zebra();
+	right_turn_wls();
+	forward_wls(1);
+	left_turn_wls();
+	forward_wls(1);
+
+	
 }
 
 /*
@@ -409,66 +421,117 @@ void correction1(void)
 
 	}
 }
-void zigzag(void)
+void zigzag()
 {
-	unsigned char lefts, centres, rights,flag;
+	unsigned lefts, rights, centres;
+
 	lefts = ADC_Conversion(1);
 	centres = ADC_Conversion(2);
 	rights = ADC_Conversion(3);
-	flag = 1;
-	
-	while (!(lefts == 255 && centres == 255 && rights == 255))
+	_delay_ms(10);
+	while (!(lefts == 255 && rights == 255 && centres == 255))
 	{
+		//correction();
+		while (!(lefts == 0 && rights == 0 && centres == 0))
+		{
+
+			forward();
+			velocity(150, 150);
+			correction();
+			lefts = ADC_Conversion(1);
+			centres = ADC_Conversion(2);
+			rights = ADC_Conversion(3);
+			_delay_ms(10);
+
+		}
+
+
 		lefts = ADC_Conversion(1);
 		centres = ADC_Conversion(2);
 		rights = ADC_Conversion(3);
 		_delay_ms(10);
-		
-		velocity(100, 100);
-		correction();
-		if (lefts == 0 && centres == 0 && rights == 0)
 
+		if (lefts == 0 && rights == 0 && centres == 0)
 		{
-			velocity(100, 100);
+			//velocity(0, 100);
+			left();
 			_delay_ms(100);
-			if (flag==1)
-			{
-				flag = 2;
-				while (centres != 255)
-				{
-					velocity(0, 200);
-					//_delay_ms(380);
-					lefts = ADC_Conversion(1);
-					centres = ADC_Conversion(2);
-					rights = ADC_Conversion(3);
-					_delay_ms(10);
+			//velocity(0, 0);
 
-				}
-				
-			}
-			if (flag == 2)
-			{
-				flag = 1;
-				while (centres != 255)
-				{
-					velocity(200, 0);
-					//_delay_ms(380);
-					lefts = ADC_Conversion(1);
-					centres = ADC_Conversion(2);
-					rights = ADC_Conversion(3);
-					_delay_ms(10);
 
-				}
-				
-			}
-			printf("%d", flag);
-		
-			
-			
-			
-			
+
+		}
+		correction();
+		lefts = ADC_Conversion(1);
+		centres = ADC_Conversion(2);
+		rights = ADC_Conversion(3);
+		_delay_ms(10);
+
+		while (lefts == 0 && rights == 0 && centres == 0)
+		{
+			right();
+
+			lefts = ADC_Conversion(1);
+			centres = ADC_Conversion(2);
+			rights = ADC_Conversion(3);
+			_delay_ms(10);
 
 		}
 
+		correction();
+		lefts = ADC_Conversion(1);
+		centres = ADC_Conversion(2);
+		rights = ADC_Conversion(3);
+		_delay_ms(10);
+
 	}
+}
+void zebra(void)
+{
+	unsigned char lefts, rights, centres;
+
+	lefts = ADC_Conversion(1);
+	centres = ADC_Conversion(2);
+	rights = ADC_Conversion(3);
+	/*
+	while (!(centres != 255 && lefts == 255 && rights == 255))
+	{
+		forward();
+		velocity(200, 200);
+		lefts = ADC_Conversion(1);
+		centres = ADC_Conversion(2);
+		rights = ADC_Conversion(3);
+		_delay_ms(10);
+
+
+	}
+	lefts = ADC_Conversion(1);
+	centres = ADC_Conversion(2);
+	rights = ADC_Conversion(3);
+	_delay_ms(10);
+	while (!(centres == 255 && lefts != 255 && rights != 255))
+	{
+		forward();
+		velocity(200, 200);
+		velocity(200, 200);
+		lefts = ADC_Conversion(1);
+		centres = ADC_Conversion(2);
+		rights = ADC_Conversion(3);
+		_delay_ms(10);
+
+
+	}*/
+	while (!(centres == 255 && lefts == 255 && rights == 255))
+	{
+		forward();
+		velocity(200, 200);
+		velocity(200, 200);
+		lefts = ADC_Conversion(1);
+		centres = ADC_Conversion(2);
+		rights = ADC_Conversion(3);
+		_delay_ms(10);
+	}
+
+
+
 }
