@@ -1,3 +1,13 @@
+/*
+Team ID: #3353
+Author List: Pavan Harish,Srinath MP,Sujay Krishna B,V R Shravan Kumar
+FileName:Sandbox.cpp
+Theme: Construct O Bot
+Functions: forward_wls(),left_turn_wls(void),right_turn_wls(void),e_shape(void),Task_1_1(void),Task_1_2(void),correction(void),forcurve(),correction1(void),zigzag(void),zebra(void).
+Global Variables: None
+*/
+
+
 //You are allowed to define your own function to fulfill the requirement of tasks
 //Dont change the name of following functions
 
@@ -13,7 +23,7 @@
 * Example Call: forward_wls(2); //Goes forward by two nodes
 *
 */
-void forward_wls(unsigned char node)
+void forward_wls(unsigned char node)      //This function is used to help the Robot to move forward.The variables used in the function are left,right and center to detect the line based on the direction of the line.
 {
 
 	unsigned char lefts, centres, rights;
@@ -89,7 +99,7 @@ void forward_wls(unsigned char node)
 * Example Call: left_turn_wls(); //Turns right until black line is encountered
 *
 */
-void left_turn_wls(void)
+void left_turn_wls(void)           //This function is used to help the Robot detect the line on the left and aids to turn the Robot left.
 {
 	unsigned lefts, rights, centres;
 	lefts = ADC_Conversion(1);
@@ -134,7 +144,7 @@ void left_turn_wls(void)
 * Logic: Uses white line sensors to turn right until black line is encountered
 * Example Call: right_turn_wls(); //Turns right until black line is encountered
 */
-void right_turn_wls(void)
+void right_turn_wls(void)               //This function is used to help the Robot detect the line on the rigth and aids to turn the Robot right.
 {
 	unsigned lefts, rights, centres;
 	lefts = ADC_Conversion(1);
@@ -176,7 +186,7 @@ void right_turn_wls(void)
 * Logic: Use this function to make the robot trace a e shape path on the arena
 * Example Call: e_shape();
 */
-void e_shape(void)
+void e_shape(void)               // This function is the part of the assignment and make the Robot trace the path of the 'e'.
 {
 	unsigned lefts, rights, centre;
 	lefts = ADC_Conversion(1);
@@ -213,7 +223,7 @@ void e_shape(void)
 * Logic: Use this function to encapsulate your Task 1.1 logic
 * Example Call: Task_1_1();
 */
-void Task_1_1(void)
+void Task_1_1(void)             //This function is invoked for the Robot to trace the path given in Task 1.1
 {
 	forward_wls(1);
 	right_turn_wls();
@@ -241,7 +251,7 @@ void Task_1_1(void)
 	left_turn_wls();
 	forward_wls(1);
 
-	
+
 }
 
 /*
@@ -252,7 +262,7 @@ void Task_1_1(void)
 * Logic: Use this function to encapsulate your Task 1.2 logic
 * Example Call: Task_1_2();
 */
-void Task_1_2(void)
+void Task_1_2(void)          //This function is invoked for the Robot to execute the Task assigned in Task 1.2
 {
 	forward();
 	_delay_ms(5000);
@@ -265,7 +275,7 @@ void Task_1_2(void)
 
 
 
-void correction(void)
+void correction(void)       //This function is used to help the Robot stay in the path and not deviate from it.
 {
 	unsigned lefts, rights, centres;
 
@@ -310,7 +320,7 @@ void correction(void)
 
 
 }
-void forcurve(unsigned char node)
+void forcurve(unsigned char node)      // This function used to help the Robot traverse the path which is curved.
 {
 	unsigned char lefts, centres, rights;
 
@@ -380,7 +390,7 @@ void forcurve(unsigned char node)
 
 	//printf("%d %d %d", lefts, rights, centres);
 }
-void correction1(void)
+void correction1(void)          //This function helps the Robot to align in the curved region of the path.
 {
 	unsigned lefts, rights, centres;
 
@@ -421,7 +431,7 @@ void correction1(void)
 
 	}
 }
-void zigzag()
+void zigzag()  //This function is used to aid the Robot in moving along the zigzag region of the path.
 {
 	unsigned lefts, rights, centres;
 
@@ -486,7 +496,7 @@ void zigzag()
 
 	}
 }
-void zebra(void)
+void zebra(void)     //This function is used to allow the Robot to traverse along the zebra crossing just before the goal.
 {
 	unsigned char lefts, rights, centres;
 
@@ -502,8 +512,6 @@ void zebra(void)
 		centres = ADC_Conversion(2);
 		rights = ADC_Conversion(3);
 		_delay_ms(10);
-
-
 	}
 	lefts = ADC_Conversion(1);
 	centres = ADC_Conversion(2);
@@ -518,8 +526,6 @@ void zebra(void)
 		centres = ADC_Conversion(2);
 		rights = ADC_Conversion(3);
 		_delay_ms(10);
-
-
 	}*/
 	while (!(centres == 255 && lefts == 255 && rights == 255))
 	{
